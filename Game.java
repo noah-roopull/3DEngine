@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 
 public class Game extends JFrame implements Runnable {
-  public int mapWidth=15;
-  public int mapHeight=15;
+  public final int screenWidth=640;
+  public final int screenHeight=480;
+  public int mapWidth=10;
+  public int mapHeight=10;
   private Thread thread;
   private boolean running;
   private BufferedImage image;
@@ -42,12 +44,12 @@ public class Game extends JFrame implements Runnable {
       System.out.println();
     }
     thread=new Thread(this);
-    image=new BufferedImage(640,480,BufferedImage.TYPE_INT_RGB);
+    image=new BufferedImage(screenWidth,screenHeight,BufferedImage.TYPE_INT_RGB);
     pixels=((DataBufferInt)image.getRaster().getDataBuffer()).getData();
     camera=new Camera(1.5,1.5,1,0,0,-0.7);
-    screen=new Screen(map,mapWidth*2+1,mapHeight*2+1,textures,640,480);
+    screen=new Screen(map,mapWidth*2+1,mapHeight*2+1,textures,screenWidth,screenHeight);
     addKeyListener(camera);
-    setSize(640,480);
+    setSize(screenWidth,screenHeight);
     setResizable(false);
     setTitle("3D Engine");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

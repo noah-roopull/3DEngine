@@ -56,20 +56,24 @@ public class Camera implements KeyListener{
     } else {
       ms=move_speed;
     }
-    if (forward) {
-      if (map[(int)(xPos+xDir*ms)][(int)yPos]<=0) xPos+=xDir*ms;
-      if (map[(int)xPos][(int)(yPos+yDir*ms)]<=0) yPos+=yDir*ms;
-    } else if (back) {
-      if (map[(int)(xPos-xDir*ms)][(int)yPos]<=0) xPos-=xDir*ms;
-      if (map[(int)xPos][(int)(yPos-yDir*ms)]<=0) yPos-=yDir*ms;
+    double dx=0.0;
+    double dy=0.0;
+    if (forward&&!back) {
+      dx+=xDir;
+      dy+=yDir;
+    } else if (!forward&&back) {
+      dx-=xDir;
+      dy-=yDir;
     }
     if (sleft&&!sright) {
-      if (map[(int)(xPos-yDir*ms)][(int)yPos]<=0) xPos-=yDir*ms;
-      if (map[(int)xPos][(int)(yPos+xDir*ms)]<=0) yPos+=xDir*ms;
+      dx-=yDir;
+      dy+=xDir;
     } else if (!sleft&&sright) {
-      if (map[(int)(xPos+yDir*ms)][(int)yPos]<=0) xPos+=yDir*ms;
-      if (map[(int)xPos][(int)(yPos-xDir*ms)]<=0) yPos-=xDir*ms;
+      dx+=yDir;
+      dy-=xDir;
     }
+    if (map[(int)(xPos+dx*ms)][(int)yPos]<=0) xPos+=dx*ms;
+    if (map[(int)xPos][(int)(yPos+dy*ms)]<=0) yPos+=dy*ms;
     if (right&&!left) {
       double oldxDir=xDir;
       xDir=xDir*Math.cos(-rotation_speed)-yDir*Math.sin(-rotation_speed);
