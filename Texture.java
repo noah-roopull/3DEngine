@@ -31,6 +31,8 @@ public class Texture {
     new Texture("res/sus.jpg",64),
     new Texture("res/rock.jpg",64),
     new Texture("res/bread.jpg",64),
+    new Texture("res/cl.jpg",64),
+    new Texture("res/ultrakill.jpg",64),
     new Texture("res/angel.jpg",64),
   };
 }
