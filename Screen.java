@@ -68,7 +68,7 @@ public class Screen {
       }
       //calculate distance to the point of impact
       if(side==0) perpWallDist=Math.abs((mapX-camera.xPos+(1-stepX)/2)/rayDirX);
-      else perpWallDist=Math.abs((mapY-camera.yPos+(1-stepY)/2)/rayDirY);	
+      else perpWallDist=Math.abs((mapY-camera.yPos+(1-stepY)/2)/rayDirY);  
       //now calculate the height of the wall based on the distance from the camera
       int lineHeight;
       if(perpWallDist>0) lineHeight=Math.abs((int)(height/perpWallDist));
