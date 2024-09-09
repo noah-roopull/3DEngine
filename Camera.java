@@ -3,11 +3,13 @@ import java.awt.event.KeyListener;
 
 
 public class Camera implements KeyListener{
+  public Game frame;
   public double xPos,yPos,xDir,yDir,xPlane,yPlane,oXPos,oYPos,oXDir,oYDir,oXPlane,oYPlane;
   public boolean left,right,forward,back,sleft,sright,resetpos; //turnleft,turnright,moveforward,moveback,strafeleft,straferight,resetposition
   public double move_speed=0.08;
   public double rotation_speed=0.06;
-  public Camera(double x,double y,double xd,double yd,double xp,double yp) {
+  public Camera(Game f,double x,double y,double xd,double yd,double xp,double yp) {
+    frame=f;
     xPos=x;
 		oXPos=x;
     yPos=y;
@@ -30,6 +32,7 @@ public class Camera implements KeyListener{
     if((key.getKeyCode()==KeyEvent.VK_A)) sleft=true;
     if((key.getKeyCode()==KeyEvent.VK_D)) sright=true;
     if((key.getKeyCode()==KeyEvent.VK_SHIFT)) move_speed=0.12;
+    if((key.getKeyCode()==KeyEvent.VK_P)) frame.dispose();
   }
   public void keyReleased(KeyEvent key) {
     if((key.getKeyCode()==KeyEvent.VK_LEFT)) left=false;
