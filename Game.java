@@ -46,7 +46,7 @@ public class Game extends JFrame implements Runnable {
     thread=new Thread(this);
     image=new BufferedImage(screenWidth,screenHeight,BufferedImage.TYPE_INT_RGB);
     pixels=((DataBufferInt)image.getRaster().getDataBuffer()).getData();
-    camera=new Camera(1.5,1.5,1,0,0,-0.7);
+    camera=new Camera(this,1.5,1.5,1,0,0,-0.7);
     screen=new Screen(map,mapWidth*2+1,mapHeight*2+1,textures,screenWidth,screenHeight);
     addKeyListener(camera);
     setSize(screenWidth,screenHeight);
