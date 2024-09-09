@@ -3,24 +3,24 @@ import java.util.ArrayList;
 public class Maze {
   public int w,h;
   public int[][] cells;
-	public Maze(int w,int h,boolean braid) {
+  public Maze(int w,int h,boolean braid) {
     this.w=w;
     this.h=h;
     int ch=h*2+1;
     int cw=w*2+1;
     boolean[][] visited=new boolean[h][w];
-		this.cells=new int[ch][cw];
-		for (int i=0;i<ch;i++) {
-			for (int j=0;j<cw;j++) {
-				cells[i][j]=1;
-			}
-		}
+    this.cells=new int[ch][cw];
+    for (int i=0;i<ch;i++) {
+      for (int j=0;j<cw;j++) {
+        cells[i][j]=1;
+      }
+    }
     cells[1][1]=0;
     visited[0][0]=true;
-		ArrayList<int[]> runners=new ArrayList<int[]>();
+    ArrayList<int[]> runners=new ArrayList<int[]>();
     runners.add(new int[]{0,0});
-		while (runners.size()>0) {
-			int[] r=runners.remove((int)Math.floor(Math.random()*runners.size()));
+    while (runners.size()>0) {
+      int[] r=runners.remove((int)Math.floor(Math.random()*runners.size()));
       ArrayList<int[]> targets=new ArrayList<int[]>();
       ArrayList<int[]> btargets=new ArrayList<int[]>();
       if (r[0]<w-1) {
@@ -68,8 +68,8 @@ public class Maze {
       this.cells[r[1]*2+1+tgt[1]][r[0]*2+1+tgt[0]]=0;
       this.cells[(r[1]+tgt[1])*2+1][(r[0]+tgt[0])*2+1]=0;
       visited[r[1]+tgt[1]][r[0]+tgt[0]]=true;
-		}
-	}
+    }
+  }
   public String toString() {
     String s="";
     for (int i=0;i<this.h*2+1;i++) {
