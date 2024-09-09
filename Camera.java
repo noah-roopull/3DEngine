@@ -11,17 +11,17 @@ public class Camera implements KeyListener{
   public Camera(Game f,double x,double y,double xd,double yd,double xp,double yp) {
     frame=f;
     xPos=x;
-		oXPos=x;
+    oXPos=x;
     yPos=y;
-		oYPos=y;
+    oYPos=y;
     xDir=xd;
-		oXDir=xd;
+    oXDir=xd;
     yDir=yd;
-		oYDir=yd;
+    oYDir=yd;
     xPlane=xp;
-		oXPlane=xp;
+    oXPlane=xp;
     yPlane=yp;
-		oYPlane=yp;
+    oYPlane=yp;
   }
   public void keyPressed(KeyEvent key) {
     if((key.getKeyCode()==KeyEvent.VK_LEFT)) left=true;
@@ -32,7 +32,7 @@ public class Camera implements KeyListener{
     if((key.getKeyCode()==KeyEvent.VK_A)) sleft=true;
     if((key.getKeyCode()==KeyEvent.VK_D)) sright=true;
     if((key.getKeyCode()==KeyEvent.VK_SHIFT)) move_speed=0.12;
-    if((key.getKeyCode()==KeyEvent.VK_P)) frame.dispose();
+    if((key.getKeyCode()==KeyEvent.VK_P)) {frame.running=false;frame.dispose();}
   }
   public void keyReleased(KeyEvent key) {
     if((key.getKeyCode()==KeyEvent.VK_LEFT)) left=false;
@@ -45,13 +45,13 @@ public class Camera implements KeyListener{
     if((key.getKeyCode()==KeyEvent.VK_SHIFT)) move_speed=0.08;
   }
   public void update(int[][] map) {
-		if (resetpos) {
+    if (resetpos) {
       xPos=oXPos;
-			yPos=oYPos;
+      yPos=oYPos;
       xDir=oXDir;
-			yDir=oYDir;
+      yDir=oYDir;
       xPlane=oXPlane;
-			yPlane=oYPlane;
+      yPlane=oYPlane;
     }
     double ms=0.0;
     if ((forward||back)&&(sleft||sright)) {
