@@ -12,7 +12,7 @@ public class Game extends JFrame implements Runnable {
   public int mapWidth=10;
   public int mapHeight=10;
   private Thread thread;
-  private boolean running;
+  public boolean running;
   private BufferedImage image;
   public int[] pixels;
   public Texture[] textures;
