@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 
 public class Game extends JFrame implements Runnable {
-  public final int screenWidth=640;
-  public final int screenHeight=480;
-  public int mapWidth=10;
-  public int mapHeight=10;
+  public final int screenWidth=800;
+  public final int screenHeight=600;
+  public int mapWidth=15;
+  public int mapHeight=15;
   private Thread thread;
   public boolean running;
   private BufferedImage image;
@@ -46,7 +46,35 @@ public class Game extends JFrame implements Runnable {
     thread=new Thread(this);
     image=new BufferedImage(screenWidth,screenHeight,BufferedImage.TYPE_INT_RGB);
     pixels=((DataBufferInt)image.getRaster().getDataBuffer()).getData();
-    camera=new Camera(this,1.5,1.5,1,0,0,-0.7);
+    double startX=((mapWidth%2==0)?0.5:1.5)+(double)mapWidth*2.0;
+    double startY=((mapHeight%2==0)?0.5:1.5)+(double)mapHeight*2.0;
+    int rotation=(int)(Math.random()*4);
+    System.out.println("startX:"+startX+" startY:"+startY);
+    String[] direction={"NORTH","EAST","SOUTH","WEST"};
+    System.out.println("rotation:"+direction[rotation]);
+    double rx,ry,px,py;
+    if (rotation==0) {
+      rx=1;
+      ry=0;
+      px=0;
+      py=-0.7;
+    } else if (rotation==1) {
+      rx=0;
+      ry=1;
+      px=0.7;
+      py=0;
+    } else if (rotation==2) {
+      rx=-1;
+      ry=0;
+      px=0;
+      py=0.7;
+    } else {
+      rx=0;
+      ry=-1;
+      px=-0.7;
+      py=0;
+    }
+    camera=new Camera(this,startX,startY,rx,ry,px,py);
     screen=new Screen(map,mapWidth*2+1,mapHeight*2+1,textures,screenWidth,screenHeight);
     addKeyListener(camera);
     setSize(screenWidth,screenHeight);
@@ -83,14 +111,14 @@ public class Game extends JFrame implements Runnable {
   }
   public void run() {
     long lastTime=System.nanoTime();
-    final double ns=1000000000.0/60.0;//60 times per second
+    final double ns=Math.pow(10.0,9.0)/60.0;//60 times per second
     double delta=0;
     requestFocus();
     while(running) {
       long now=System.nanoTime();
       delta=delta+((now-lastTime)/ns);
       lastTime=now;
-      while (delta>=1) { //update max 60fps
+      while (delta>=1) {//update max 60fps
         //handles all of the logic restricted time
         screen.update(camera,pixels);
         camera.update(map);
