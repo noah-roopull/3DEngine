@@ -56,6 +56,7 @@ public class Game extends JFrame implements Runnable {
     setBackground(Color.black);
     setLocationRelativeTo(null);
     setVisible(true);
+    this.requestFocus();
     start();
   }
   private synchronized void start() {
