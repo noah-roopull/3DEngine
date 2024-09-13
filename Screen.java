@@ -25,20 +25,19 @@ public class Screen {
       double cameraX=2*x/(double)(width) -1;
       double rayDirX=camera.xDir+camera.xPlane*cameraX;
       double rayDirY=camera.yDir+camera.yPlane*cameraX;
-      //map position
+      //map pos
       int mapX=(int)camera.xPos;
       int mapY=(int)camera.yPos;
-      //length of ray from current position to next x or y-side
+      //length of ray from current pos to next x or y-side
       double sideDistX;
       double sideDistY;
       //length of ray from one side to next in map
       double deltaDistX=Math.sqrt(1+(rayDirY*rayDirY)/(rayDirX*rayDirX));
       double deltaDistY=Math.sqrt(1+(rayDirX*rayDirX)/(rayDirY*rayDirY));
       double perpWallDist;
-      //direction to go in x and y
       int stepX,stepY;
-      boolean hit=false;//was a wall hit
-      int side=0;//was the wall vertical or horizontal
+      boolean hit=false; //was a wall hit
+      int side=0; //was the wall vertical or horizontal
       //figure out the step direction and initial distance to a side
       if (rayDirX<0) {
         stepX=-1;

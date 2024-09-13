@@ -21,37 +21,26 @@ public class Game extends JFrame implements Runnable {
   public int[][] map;
   public Game() {
     textures=Texture.texList;
-    map=new Maze(mapWidth*2+1,mapHeight*2+1,true).cells;
-    for (int t=1;t<textures.length;t++) {
-      for (int i=0;i<Math.sqrt(mapWidth*mapHeight);i++) {
-        int rx=(int)(Math.random()*mapWidth*4+3);
-        int ry=(int)(Math.random()*mapHeight*4+3);
-        if (map[ry][rx]==1) {
+    Maze m=new Maze(mapWidth*2+1,mapHeight*2+1,true);
+    map=m.cells; //reference for cell array
+    for (int t=1;t<textures.length;t++) { //for each texture besides the first
+      for (int i=0;i<Math.sqrt(mapWidth*mapHeight);i++) { //approx. same amount of replacements for any size
+        int rx=(int)(Math.random()*mapWidth*4+3); //pick random x
+        int ry=(int)(Math.random()*mapHeight*4+3); //pick random y
+        if (map[ry][rx]==1) { //make sure the replacement tile is a default wall
           map[ry][rx]=t;
         }
       }
     }
-    map[mapHeight*4+1][mapWidth*4+2]=textures.length;
+    map[mapHeight*4+1][mapWidth*4+2]=textures.length; //set bottom right corner to angel
     map[mapHeight*4+2][mapWidth*4+1]=textures.length;
-    for (int j=0;j<mapWidth*4+3;j++) {
-      for (int i=0;i<mapHeight*4+3;i++) {
-        if (map[j][i]>0) {
-          System.out.print(""+map[j][i]+map[j][i]);
-        } else {
-          System.out.print("  ");
-        }
-      }
-      System.out.println();
-    }
+    System.out.println(m); //display modified maze
     thread=new Thread(this);
     image=new BufferedImage(screenWidth,screenHeight,BufferedImage.TYPE_INT_RGB);
     pixels=((DataBufferInt)image.getRaster().getDataBuffer()).getData();
-    double startX=((mapWidth%2==0)?0.5:1.5)+(double)mapWidth*2.0;
+    double startX=((mapWidth%2==0)?0.5:1.5)+(double)mapWidth*2.0; //center
     double startY=((mapHeight%2==0)?0.5:1.5)+(double)mapHeight*2.0;
-    int rotation=(int)(Math.random()*4);
-    System.out.println("startX:"+startX+" startY:"+startY);
-    String[] direction={"NORTH","EAST","SOUTH","WEST"};
-    System.out.println("rotation:"+direction[rotation]);
+    int rotation=(int)(Math.random()*4); //Rotates the player to a random 90deg angle
     double rx,ry,px,py;
     if (rotation==0) {
       rx=1;
@@ -78,7 +67,7 @@ public class Game extends JFrame implements Runnable {
     screen=new Screen(map,mapWidth*2+1,mapHeight*2+1,textures,screenWidth,screenHeight);
     addKeyListener(camera);
     setSize(screenWidth,screenHeight);
-    setResizable(false);
+    setResizable(false); //avoid resolution change
     setTitle("3D Engine");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBackground(Color.black);

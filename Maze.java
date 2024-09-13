@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Maze {
   public int w,h;
   public int[][] cells;
-  public Maze(int w,int h,boolean braid) {
+  public Maze(int w,int h,boolean braid) { //if braid, try to avoid dead ends (currently works ~75% of the time)
     this.w=w;
     this.h=h;
     int ch=h*2+1;
@@ -65,9 +65,9 @@ public class Maze {
           continue;
         }
       }
-      this.cells[r[1]*2+1+tgt[1]][r[0]*2+1+tgt[0]]=0;
-      this.cells[(r[1]+tgt[1])*2+1][(r[0]+tgt[0])*2+1]=0;
-      visited[r[1]+tgt[1]][r[0]+tgt[0]]=true;
+      this.cells[r[1]*2+1+tgt[1]][r[0]*2+1+tgt[0]]=0; //carve pathway
+      this.cells[(r[1]+tgt[1])*2+1][(r[0]+tgt[0])*2+1]=0; //clear actual target
+      visited[r[1]+tgt[1]][r[0]+tgt[0]]=true; //mark as visited to avoid returning later
     }
   }
   public String toString() {
@@ -75,7 +75,7 @@ public class Maze {
     for (int i=0;i<this.h*2+1;i++) {
       for (int j=0;j<this.w*2+1;j++) {
         if (this.cells[i][j]>0) {
-          s+=""+this.cells[i][j]+this.cells[i][j]; //██
+          s+=""+this.cells[i][j]+this.cells[i][j]; //██ if all cells are 1
         } else {
           s+="  ";
         }

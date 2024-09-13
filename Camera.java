@@ -31,8 +31,8 @@ public class Camera implements KeyListener{
     if((key.getKeyCode()==KeyEvent.VK_R)) resetpos=true;
     if((key.getKeyCode()==KeyEvent.VK_A)) sleft=true;
     if((key.getKeyCode()==KeyEvent.VK_D)) sright=true;
-    if((key.getKeyCode()==KeyEvent.VK_SHIFT)) move_speed=0.12;
-    if((key.getKeyCode()==KeyEvent.VK_P)) {frame.running=false;frame.dispose();}
+    if((key.getKeyCode()==KeyEvent.VK_SHIFT)) move_speed=0.12; //150% base speed
+    if((key.getKeyCode()==KeyEvent.VK_P)) {frame.running=false;frame.dispose();} //close window (almost) clenanly
   }
   public void keyReleased(KeyEvent key) {
     if((key.getKeyCode()==KeyEvent.VK_LEFT)) left=false;
@@ -42,7 +42,7 @@ public class Camera implements KeyListener{
     if((key.getKeyCode()==KeyEvent.VK_R)) resetpos=false;
     if((key.getKeyCode()==KeyEvent.VK_A)) sleft=false;
     if((key.getKeyCode()==KeyEvent.VK_D)) sright=false;
-    if((key.getKeyCode()==KeyEvent.VK_SHIFT)) move_speed=0.08;
+    if((key.getKeyCode()==KeyEvent.VK_SHIFT)) move_speed=0.08; //revert to original speed
   }
   public void update(int[][] map) {
     if (resetpos) {
@@ -55,12 +55,13 @@ public class Camera implements KeyListener{
     }
     double ms=0.0;
     if ((forward||back)&&(sleft||sright)) {
-      ms=move_speed*0.71;
+      ms=move_speed*0.71; //~sqrt(2)/2, avoid faster movement while moving diagonally
     } else {
       ms=move_speed;
     }
     double dx=0.0;
     double dy=0.0;
+    //Moving forward/backwards, strafing left/right, and looking left/right are mutually exclusive
     if (forward&&!back) {
       dx+=xDir;
       dy+=yDir;
@@ -97,5 +98,5 @@ public class Camera implements KeyListener{
       rotation_speed=0.06;
     }
   }
-  public void keyTyped(KeyEvent key) {}
+  public void keyTyped(KeyEvent key) {} //Override but ignore
 }

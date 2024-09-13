@@ -26,7 +26,7 @@ public class Texture {
     }
   }
   public static Texture[] texList=new Texture[]{
-    new Texture("res/grass.jpg",64),
+    new Texture("res/grass.jpg",64), //first texture is the default
     new Texture("res/bleh.jpg",64),
     new Texture("res/sus.jpg",64),
     new Texture("res/rock.jpg",64),
