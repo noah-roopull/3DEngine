@@ -75,7 +75,8 @@ public class Maze {
     for (int i=0;i<this.h*2+1;i++) {
       for (int j=0;j<this.w*2+1;j++) {
         if (this.cells[i][j]>0) {
-          s+=""+this.cells[i][j]+this.cells[i][j]; //██ if all cells are 1
+          String x="0123456789ABCDEFGHJKLMNOPQRSTUVWXYZ".substring(this.cells[i][j],this.cells[i][j]+1);
+          s+=x+x; //██ if all cells are 1
         } else {
           s+="  ";
         }

@@ -1,5 +1,5 @@
 echo "Working..." &&
-mkdir -v build build/res &&
+mkdir -v build build/res
 cp -v *.java build/ &&
 cp -vr res/* build/res/ &&
 cp -v Manifest.txt build/ &&
@@ -12,4 +12,5 @@ mv -v Game.jar ../Game.jar &&
 cd .. &&
 echo "Cleaning..." &&
 rm -rv build &&
-echo "Done."
+echo "Done. Running..."
+java -jar Game.jar
