@@ -82,7 +82,7 @@ public class Screen {
       if (side==0&&rayDirX>0) wallTexX=textures[texNum].SIZE-wallTexX-1;
       if (side==1&&rayDirY<0) wallTexX=textures[texNum].SIZE-wallTexX-1;
       for (int y=0;y<drawStart;y++) { //ceil
-        double currentDist=height/(2.0*y-height); //distance from the player to the ceiling at this y-coordinate
+        double currentDist=height/(height-2.0*y); //distance from the player to the ceiling at this y-coordinate
         double ceilX=camera.xPos+currentDist*(camera.xDir+camera.xPlane*(2*x/(double)width-1));
         double ceilY=camera.yPos+currentDist*(camera.yDir+camera.yPlane*(2*x/(double)width-1));
         int ceilTexX=(int)(ceilX%1*ceilTex.SIZE);
@@ -90,14 +90,6 @@ public class Screen {
         ceilTexX=(ceilTexX+ceilTex.SIZE)%ceilTex.SIZE;
         ceilTexY=(ceilTexY+ceilTex.SIZE)%ceilTex.SIZE;
         int color=ceilTex.pixels[ceilTexX+ceilTexY*ceilTex.SIZE];
-        double fadeFactor=Math.max(0,Math.min(1,1-(currentDist/fadeDist)));
-        int r=(color>>16)&0xFF;
-        int g=(color>>8)&0xFF;
-        int b=color&0xFF;
-        r=(int)(r*fadeFactor);
-        g=(int)(g*fadeFactor);
-        b=(int)(b*fadeFactor);
-        color=(r<<16)|(g<<8)|b;
         pixels[x+y*width]=color;
       }
       for (int y=drawStart;y<drawEnd;y++) { //walls
