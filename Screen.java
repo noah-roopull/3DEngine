@@ -7,14 +7,17 @@ public class Screen {
   public static Texture floorTex=Texture.floor;
   private static final double fadeDist=4.0;
   private static final double maxDist=Math.pow(fadeDist,2);
+  private double time;
   public Screen(int[][] m,int mapW,int mapH,int w,int h) {
     map=m;
     mapWidth=mapW;
     mapHeight=mapH;
     width=w;
     height=h;
+    time=0.0;
   }
-  public int[] update(Camera camera,int[] pixels) {
+  public int[] update(Camera camera,int[] pixels,double delta) {
+    time+=delta;
     for (int i=0;i<pixels.length;i++) {
       if (pixels[i]!=0) pixels[i]=0;
     }
@@ -85,8 +88,8 @@ public class Screen {
         double currentDist=height/(height-2.0*y); //distance from the player to the ceiling at this y-coordinate
         double ceilX=camera.xPos+currentDist*(camera.xDir+camera.xPlane*(2*x/(double)width-1));
         double ceilY=camera.yPos+currentDist*(camera.yDir+camera.yPlane*(2*x/(double)width-1));
-        int ceilTexX=(int)(ceilX%1*ceilTex.SIZE);
-        int ceilTexY=(int)(ceilY%1*ceilTex.SIZE);
+        int ceilTexX=(int)((ceilX+time)%1*ceilTex.SIZE);
+        int ceilTexY=(int)((ceilY+time)%1*ceilTex.SIZE);
         ceilTexX=(ceilTexX+ceilTex.SIZE)%ceilTex.SIZE;
         ceilTexY=(ceilTexY+ceilTex.SIZE)%ceilTex.SIZE;
         int color=ceilTex.pixels[ceilTexX+ceilTexY*ceilTex.SIZE];
