@@ -17,7 +17,7 @@ public class Screen {
     time=0.0;
   }
   public int[] update(Camera camera,int[] pixels,double delta) {
-    time+=delta;
+    time=(time+delta)%1;
     for (int i=0;i<pixels.length;i++) {
       if (pixels[i]!=0) pixels[i]=0;
     }
