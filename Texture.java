@@ -7,14 +7,14 @@ public class Texture {
   public int[] pixels;
   private String loc;
   public final int SIZE;
-  
+
   public Texture(String location,int size) {
     loc=location;
     SIZE=size;
     pixels=new int[SIZE*SIZE];
     load();
   }
-  
+
   private void load() {
     try {
       BufferedImage image=ImageIO.read(new File(loc));
@@ -26,6 +26,7 @@ public class Texture {
     }
   }
   public static Texture floor=new Texture("res/wood.jpg",64);
+  public static Texture ceil=new Texture("res/skycrackle.jpg",64);
   public static Texture[] decor=new Texture[]{
     new Texture("res/stonebrick.jpg",64), //first texture is the default
     new Texture("res/mossybrick.jpg",64),

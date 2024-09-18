@@ -3,6 +3,7 @@ public class Screen {
   public int[][] map;
   public int mapWidth,mapHeight,width,height;
   public static Texture[] textures=Texture.decor;
+  public static Texture ceilTex=Texture.ceil;
   public static Texture floorTex=Texture.floor;
   private static final double fadeDist=4.0;
   private static final double maxDist=Math.pow(fadeDist,2);
@@ -80,7 +81,25 @@ public class Screen {
       int wallTexX=(int)(wallX*textures[texNum].SIZE);
       if (side==0&&rayDirX>0) wallTexX=textures[texNum].SIZE-wallTexX-1;
       if (side==1&&rayDirY<0) wallTexX=textures[texNum].SIZE-wallTexX-1;
-      double floorDist=height/(2.0*(drawStart-height/2.0+lineHeight/2.0));
+      for (int y=0;y<drawStart;y++) { //ceil
+        double currentDist=height/(2.0*y-height); //distance from the player to the ceiling at this y-coordinate
+        double ceilX=camera.xPos+currentDist*(camera.xDir+camera.xPlane*(2*x/(double)width-1));
+        double ceilY=camera.yPos+currentDist*(camera.yDir+camera.yPlane*(2*x/(double)width-1));
+        int ceilTexX=(int)(ceilX%1*ceilTex.SIZE);
+        int ceilTexY=(int)(ceilY%1*ceilTex.SIZE);
+        ceilTexX=(ceilTexX+ceilTex.SIZE)%ceilTex.SIZE;
+        ceilTexY=(ceilTexY+ceilTex.SIZE)%ceilTex.SIZE;
+        int color=ceilTex.pixels[ceilTexX+ceilTexY*ceilTex.SIZE];
+        double fadeFactor=Math.max(0,Math.min(1,1-(currentDist/fadeDist)));
+        int r=(color>>16)&0xFF;
+        int g=(color>>8)&0xFF;
+        int b=color&0xFF;
+        r=(int)(r*fadeFactor);
+        g=(int)(g*fadeFactor);
+        b=(int)(b*fadeFactor);
+        color=(r<<16)|(g<<8)|b;
+        pixels[x+y*width]=color;
+      }
       for (int y=drawStart;y<drawEnd;y++) { //walls
         int texY=(((y*2-height+lineHeight)<<6)/lineHeight)/2;
         int color=textures[texNum].pixels[wallTexX+(texY*textures[texNum].SIZE)];
@@ -96,8 +115,8 @@ public class Screen {
       }
       for (int y=drawEnd;y<height;y++) { //floor
         double currentDist=height/(2.0*y-height); //distance from the player to the floor at this y-coordinate
-        double floorX=camera.xPos+currentDist*(camera.xDir+camera.xPlane*(2*x/(double) width-1));
-        double floorY=camera.yPos+currentDist*(camera.yDir+camera.yPlane*(2*x/(double) width-1));
+        double floorX=camera.xPos+currentDist*(camera.xDir+camera.xPlane*(2*x/(double)width-1));
+        double floorY=camera.yPos+currentDist*(camera.yDir+camera.yPlane*(2*x/(double)width-1));
         int floorTexX=(int)(floorX%1*floorTex.SIZE);
         int floorTexY=(int)(floorY%1*floorTex.SIZE);
         floorTexX=(floorTexX+floorTex.SIZE)%floorTex.SIZE;
