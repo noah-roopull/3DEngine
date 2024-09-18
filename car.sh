@@ -5,7 +5,7 @@ cp -vr res/* build/res/ &&
 cp -v Manifest.txt build/ &&
 cd build &&
 echo "Compiling..." &&
-javac *.java &&
+javac -verbose *.java &&
 echo "Compressing..." &&
 jar cvfm Game.jar Manifest.txt * &&
 mv -v Game.jar ../Game.jar &&

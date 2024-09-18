@@ -7,23 +7,23 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 
 public class Game extends JFrame implements Runnable {
-  public final int screenWidth=800;
-  public final int screenHeight=600;
-  public int mapWidth=15;
-  public int mapHeight=15;
+  public final int screenWidth=600;
+  public final int screenHeight=450;
+  public int mapWidth=7;
+  public int mapHeight=7;
   private Thread thread;
   public boolean running;
   private BufferedImage image;
   public int[] pixels;
-  public Texture[] textures;
+  public Texture[] wallTex;
   public Camera camera;
   public Screen screen;
   public int[][] map;
   public Game() {
-    textures=Texture.texList;
+    wallTex=Texture.decor;
     Maze m=new Maze(mapWidth*2+1,mapHeight*2+1,true);
     map=m.cells; //reference for cell array
-    for (int t=1;t<textures.length;t++) { //for each texture besides the first
+    for (int t=1;t<wallTex.length;t++) { //for each texture besides the first and last (first is default wall, last is floor
       for (int i=0;i<Math.sqrt(mapWidth*mapHeight);i++) { //approx. same amount of replacements for any size
         int rx=(int)(Math.random()*mapWidth*4+3); //pick random x
         int ry=(int)(Math.random()*mapHeight*4+3); //pick random y
@@ -32,8 +32,8 @@ public class Game extends JFrame implements Runnable {
         }
       }
     }
-    map[mapHeight*4+1][mapWidth*4+2]=textures.length; //set bottom right corner to angel
-    map[mapHeight*4+2][mapWidth*4+1]=textures.length;
+    map[mapHeight*4+1][mapWidth*4+2]=wallTex.length; //set bottom right corner to angel
+    map[mapHeight*4+2][mapWidth*4+1]=wallTex.length;
     System.out.println(m); //display modified maze
     thread=new Thread(this);
     image=new BufferedImage(screenWidth,screenHeight,BufferedImage.TYPE_INT_RGB);
@@ -64,7 +64,7 @@ public class Game extends JFrame implements Runnable {
       py=0;
     }
     camera=new Camera(this,startX,startY,rx,ry,px,py);
-    screen=new Screen(map,mapWidth*2+1,mapHeight*2+1,textures,screenWidth,screenHeight);
+    screen=new Screen(map,mapWidth*2+1,mapHeight*2+1,screenWidth,screenHeight);
     addKeyListener(camera);
     setSize(screenWidth,screenHeight);
     setResizable(false); //avoid resolution change

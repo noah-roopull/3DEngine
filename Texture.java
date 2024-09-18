@@ -25,8 +25,11 @@ public class Texture {
       e.printStackTrace();
     }
   }
-  public static Texture[] texList=new Texture[]{
-    new Texture("res/grass.jpg",64), //first texture is the default
+  public static Texture floor=new Texture("res/wood.jpg",64);
+  public static Texture[] decor=new Texture[]{
+    new Texture("res/stonebrick.jpg",64), //first texture is the default
+    new Texture("res/mossybrick.jpg",64),
+    new Texture("res/redbrick.jpg",64),
     new Texture("res/bleh.jpg",64),
     new Texture("res/sus.jpg",64),
     new Texture("res/rock.jpg",64),
@@ -36,6 +39,6 @@ public class Texture {
     new Texture("res/dog.jpg",64),
     new Texture("res/zodiac.jpg",64),
     new Texture("res/ultrakill.jpg",64),
-    new Texture("res/angel.jpg",64),
+    new Texture("res/angel.jpg",64)
   };
 }
