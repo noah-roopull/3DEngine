@@ -9,8 +9,8 @@ import javax.swing.JFrame;
 public class Game extends JFrame implements Runnable {
   public final int screenWidth=800;
   public final int screenHeight=600;
-  public int mapWidth=15;
-  public int mapHeight=15;
+  public int mapWidth=7;
+  public int mapHeight=7;
   private Thread thread;
   public boolean running;
   private BufferedImage image;
@@ -20,7 +20,7 @@ public class Game extends JFrame implements Runnable {
   public Screen screen;
   public int[][] map;
   public Game() {
-    wallTex=Texture.decor;
+    wallTex=Texture.walls;
     Maze m=new Maze(mapWidth*2+1,mapHeight*2+1,true);
     map=m.cells; //reference for cell array
     for (int t=1;t<wallTex.length;t++) { //for each texture besides the first and last (first is default wall, last is floor
@@ -109,7 +109,7 @@ public class Game extends JFrame implements Runnable {
       lastTime=now;
       while (delta>=1) {//update max 60fps
         //handle all logic restricted time
-        screen.update(camera,pixels,0.01);
+        screen.update(camera,pixels,0.001);
         camera.update(map);
         delta--;
       }

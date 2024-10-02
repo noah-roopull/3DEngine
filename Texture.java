@@ -25,9 +25,10 @@ public class Texture {
       e.printStackTrace();
     }
   }
-  public static Texture floor=new Texture("res/wood.jpg",64);
-  public static Texture ceil=new Texture("res/skycrackle.jpg",64);
-  public static Texture[] decor=new Texture[]{
+  public static final Texture floor=new Texture("res/wood.jpg",64);
+  private static final String[] colors=new String[]{"red","green","blue"};
+  public static final Texture ceil=new Texture("res/skycrackledark.jpg",64);
+  public static final Texture[] walls=new Texture[]{
     new Texture("res/stonebrick.jpg",64), //first texture is the default
     new Texture("res/mossybrick.jpg",64),
     new Texture("res/redbrick.jpg",64),
