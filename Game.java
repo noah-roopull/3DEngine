@@ -9,8 +9,8 @@ import javax.swing.JFrame;
 public class Game extends JFrame implements Runnable {
   public final int screenWidth=800;
   public final int screenHeight=600;
-  public int mapWidth=7;
-  public int mapHeight=7;
+  public int mapWidth=15;
+  public int mapHeight=15;
   private Thread thread;
   public boolean running;
   private BufferedImage image;

@@ -118,6 +118,7 @@ public class Screen {
       if (!hit) continue; // if the wall is too far away, don't even render it
       for (int y=drawStart;y<drawEnd;y++) { //walls
         int texY=(((y*2-height+lineHeight)<<6)/lineHeight)/2;
+        if (wallTexX+(texY*64)<0) continue;
         int color=textures[texNum].pixels[wallTexX+(texY*64)];
         double fadeFactor=Math.max(0,Math.min(1,1-(perpWallDist/fadeDist)));
         color=Screen.multiplyColor(color,fadeFactor);
