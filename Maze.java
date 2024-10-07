@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Maze {
   public int w,h;
   public int[][] cells;
-  public Maze(int w,int h,boolean braid) { //if braid, try to avoid dead ends (currently works ~75% of the time)
+  public Maze(int w,int h,boolean braid) { //if braid, carve another wall to avoid dead ends - more consistent
     this.w=w;
     this.h=h;
     int ch=h*2+1;
@@ -19,6 +19,7 @@ public class Maze {
     visited[0][0]=true;
     ArrayList<int[]> runners=new ArrayList<int[]>();
     runners.add(new int[]{0,0});
+    int[] lastdir=new int[]{0,0};
     while (runners.size()>0) {
       int[] r=runners.remove((int)Math.floor(Math.random()*runners.size()));
       ArrayList<int[]> targets=new ArrayList<int[]>();
@@ -54,20 +55,25 @@ public class Maze {
       if (targets.size()>1) {
         runners.add(r);
       }
-      int[] tgt=new int[]{0,0};
       if (targets.size()>0) {
-        tgt=targets.get((int)Math.floor(Math.random()*targets.size()));
-        runners.add(new int[]{r[0]+tgt[0],r[1]+tgt[1]});
+        lastdir=targets.get((int)Math.floor(Math.random()*targets.size()));
+        runners.add(new int[]{r[0]+lastdir[0],r[1]+lastdir[1]});
       } else {
         if (braid) {
-          tgt=btargets.get((int)Math.floor(Math.random()*btargets.size()));
+          int[] braiddir=btargets.get((int)Math.floor(Math.random()*btargets.size()));
+          if (braiddir[0]==-lastdir[0]&&braiddir[1]==-lastdir[1]) {
+            btargets.remove(braiddir);
+            lastdir=btargets.get((int)Math.floor(Math.random()*btargets.size()));
+          } else {
+            lastdir=braiddir;
+          }
         } else {
           continue;
         }
       }
-      this.cells[r[1]*2+1+tgt[1]][r[0]*2+1+tgt[0]]=0; //carve pathway
-      this.cells[(r[1]+tgt[1])*2+1][(r[0]+tgt[0])*2+1]=0; //clear actual target
-      visited[r[1]+tgt[1]][r[0]+tgt[0]]=true; //mark as visited to avoid returning later
+      this.cells[r[1]*2+1+lastdir[1]][r[0]*2+1+lastdir[0]]=0; //carve pathway
+      this.cells[(r[1]+lastdir[1])*2+1][(r[0]+lastdir[0])*2+1]=0; //clear actual target
+      visited[r[1]+lastdir[1]][r[0]+lastdir[0]]=true; //mark as visited to avoid returning later
     }
   }
   public String toString() {

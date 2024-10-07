@@ -6,8 +6,10 @@ public class Camera implements KeyListener{
   public Game frame;
   public double xPos,yPos,xDir,yDir,xPlane,yPlane,oXPos,oYPos,oXDir,oYDir,oXPlane,oYPlane;
   public boolean left,right,forward,back,sleft,sright,resetpos; //turnleft,turnright,moveforward,moveback,strafeleft,straferight,resetposition
-  public double move_speed=0.08;
-  public double rotation_speed=0.06;
+  public final double move_speed=0.08;
+  public final double sprint_speed=0.12;
+  public final double rotation_speed=0.09;
+  public double ms,m;
   public Camera(Game f,double x,double y,double xd,double yd,double xp,double yp) {
     frame=f;
     xPos=x;
@@ -22,27 +24,28 @@ public class Camera implements KeyListener{
     oXPlane=xp;
     yPlane=yp;
     oYPlane=yp;
+    ms=move_speed;
   }
   public void keyPressed(KeyEvent key) {
-    if((key.getKeyCode()==KeyEvent.VK_LEFT)) left=true;
-    if((key.getKeyCode()==KeyEvent.VK_RIGHT)) right=true;
-    if((key.getKeyCode()==KeyEvent.VK_W)) forward=true;
-    if((key.getKeyCode()==KeyEvent.VK_S)) back=true;
-    if((key.getKeyCode()==KeyEvent.VK_R)) resetpos=true;
-    if((key.getKeyCode()==KeyEvent.VK_A)) sleft=true;
-    if((key.getKeyCode()==KeyEvent.VK_D)) sright=true;
-    if((key.getKeyCode()==KeyEvent.VK_SHIFT)) move_speed=0.12; //150% base speed
-    if((key.getKeyCode()==KeyEvent.VK_P)) {frame.running=false;frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));;} //close window cleanly
+    if (key.getKeyCode()==KeyEvent.VK_LEFT) left=true;
+    if (key.getKeyCode()==KeyEvent.VK_RIGHT) right=true;
+    if (key.getKeyCode()==KeyEvent.VK_W) forward=true;
+    if (key.getKeyCode()==KeyEvent.VK_S) back=true;
+    if (key.getKeyCode()==KeyEvent.VK_R) resetpos=true;
+    if (key.getKeyCode()==KeyEvent.VK_A) sleft=true;
+    if (key.getKeyCode()==KeyEvent.VK_D) sright=true;
+    if (key.getKeyCode()==KeyEvent.VK_SHIFT) ms=sprint_speed;
+    if (key.getKeyCode()==KeyEvent.VK_P) frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING)); //close window cleanly
   }
   public void keyReleased(KeyEvent key) {
-    if((key.getKeyCode()==KeyEvent.VK_LEFT)) left=false;
-    if((key.getKeyCode()==KeyEvent.VK_RIGHT)) right=false;
-    if((key.getKeyCode()==KeyEvent.VK_W)) forward=false;
-    if((key.getKeyCode()==KeyEvent.VK_S)) back=false;
-    if((key.getKeyCode()==KeyEvent.VK_R)) resetpos=false;
-    if((key.getKeyCode()==KeyEvent.VK_A)) sleft=false;
-    if((key.getKeyCode()==KeyEvent.VK_D)) sright=false;
-    if((key.getKeyCode()==KeyEvent.VK_SHIFT)) move_speed=0.08; //revert to original speed
+    if (key.getKeyCode()==KeyEvent.VK_LEFT) left=false;
+    if (key.getKeyCode()==KeyEvent.VK_RIGHT) right=false;
+    if (key.getKeyCode()==KeyEvent.VK_W) forward=false;
+    if (key.getKeyCode()==KeyEvent.VK_S) back=false;
+    if (key.getKeyCode()==KeyEvent.VK_R) resetpos=false;
+    if (key.getKeyCode()==KeyEvent.VK_A) sleft=false;
+    if (key.getKeyCode()==KeyEvent.VK_D) sright=false;
+    if (key.getKeyCode()==KeyEvent.VK_SHIFT) ms=move_speed;
   }
   public void update(int[][] map) {
     if (resetpos) {
@@ -53,11 +56,10 @@ public class Camera implements KeyListener{
       xPlane=oXPlane;
       yPlane=oYPlane;
     }
-    double ms=0.0;
     if ((forward||back)&&(sleft||sright)) {
-      ms=move_speed*0.71; //~sqrt(2)/2, avoid faster movement while moving diagonally
+      m=ms*0.71; //~sqrt(2)/2, avoid faster movement while moving diagonally
     } else {
-      ms=move_speed;
+      m=ms;
     }
     double dx=0.0;
     double dy=0.0;
@@ -85,7 +87,6 @@ public class Camera implements KeyListener{
       double oldxPlane=xPlane;
       xPlane=xPlane*Math.cos(-rotation_speed)-yPlane*Math.sin(-rotation_speed);
       yPlane=oldxPlane*Math.sin(-rotation_speed)+yPlane*Math.cos(-rotation_speed);
-      rotation_speed+=0.0005;
     } else if (left&&!right) {
       double oldxDir=xDir;
       xDir=xDir*Math.cos(rotation_speed)-yDir*Math.sin(rotation_speed);
@@ -93,9 +94,6 @@ public class Camera implements KeyListener{
       double oldxPlane=xPlane;
       xPlane=xPlane*Math.cos(rotation_speed)-yPlane*Math.sin(rotation_speed);
       yPlane=oldxPlane*Math.sin(rotation_speed)+yPlane*Math.cos(rotation_speed);
-      rotation_speed+=0.0005;
-    } else {
-      rotation_speed=0.06;
     }
   }
   public void keyTyped(KeyEvent key) {} //Override but ignore

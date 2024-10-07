@@ -6,12 +6,10 @@ import javax.imageio.ImageIO;
 public class Texture {
   public int[] pixels;
   private String loc;
-  public final int SIZE;
 
-  public Texture(String location,int size) {
+  public Texture(String location) {
     loc=location;
-    SIZE=size;
-    pixels=new int[SIZE*SIZE];
+    pixels=new int[4096];
     load();
   }
 
@@ -25,21 +23,21 @@ public class Texture {
       e.printStackTrace();
     }
   }
-  public static final Texture floor=new Texture("res/wood.jpg",64);
-  public static final Texture ceil=new Texture("res/skycrackledark.jpg",64);
+  public static final Texture floor=new Texture("res/wood.jpg");
+  public static final Texture ceil=new Texture("res/skycrackledark.jpg");
   public static final Texture[] walls=new Texture[]{
-    new Texture("res/stonebrick.jpg",64), //first texture is the default
-    new Texture("res/mossybrick.jpg",64),
-    new Texture("res/redbrick.jpg",64),
-    new Texture("res/bleh.jpg",64),
-    new Texture("res/sus.jpg",64),
-    new Texture("res/rock.jpg",64),
-    new Texture("res/bread.jpg",64),
-    new Texture("res/cl.jpg",64),
-    new Texture("res/banana.jpg",64),
-    new Texture("res/dog.jpg",64),
-    new Texture("res/zodiac.jpg",64),
-    new Texture("res/ultrakill.jpg",64),
-    new Texture("res/angel.jpg",64)
+    new Texture("res/stonebrick.jpg"), //first texture is the default
+    new Texture("res/mossybrick.jpg"),
+    new Texture("res/redbrick.jpg"),
+    new Texture("res/bleh.jpg"),
+    new Texture("res/sus.jpg"),
+    new Texture("res/rock.jpg"),
+    new Texture("res/bread.jpg"),
+    new Texture("res/cl.jpg"),
+    new Texture("res/banana.jpg"),
+    new Texture("res/dog.jpg"),
+    new Texture("res/zodiac.jpg"),
+    new Texture("res/ultrakill.jpg"),
+    new Texture("res/angel.jpg")
   };
 }

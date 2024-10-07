@@ -92,7 +92,7 @@ public class Game extends JFrame implements Runnable {
   public void render() {
     BufferStrategy bs=getBufferStrategy();
     if(bs==null) {
-      createBufferStrategy(3);
+      createBufferStrategy(2);
       return;
     }
     Graphics g=bs.getDrawGraphics();

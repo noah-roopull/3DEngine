@@ -89,8 +89,8 @@ public class Screen {
       }
       wallX-=Math.floor(wallX);
       int wallTexX=(int)(wallX*64);
-      if (side==0&&rayDirX>0) wallTexX=textures[texNum].SIZE-wallTexX-1;
-      if (side==1&&rayDirY<0) wallTexX=textures[texNum].SIZE-wallTexX-1;
+      if (side==0&&rayDirX>0) wallTexX=64-wallTexX-1;
+      if (side==1&&rayDirY<0) wallTexX=64-wallTexX-1;
       for (int y=0;y<drawStart;y++) { //ceil
         double currentDist=height/(height-2.0*y); //distance from the player to the ceiling at this y-coordinate
         double ceilX=camera.xPos+currentDist*(camera.xDir+camera.xPlane*(2*x/(double)width-1));
