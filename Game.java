@@ -7,8 +7,9 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 
 public class Game extends JFrame implements Runnable {
-  public final int screenWidth=800;
-  public final int screenHeight=600;
+  public final int screenWidth=600;
+  public final int screenHeight=450;
+  public final double planeSize=0.7;
   public int mapWidth=15;
   public int mapHeight=15;
   private Thread thread;
@@ -27,7 +28,7 @@ public class Game extends JFrame implements Runnable {
       for (int i=0;i<Math.sqrt(mapWidth*mapHeight);i++) { //approx. same amount of replacements for any size
         int rx=(int)(Math.random()*mapWidth*4+3); //pick random x
         int ry=(int)(Math.random()*mapHeight*4+3); //pick random y
-        if (map[ry][rx]==1) { //make sure the replacement tile is a default wall
+        if (map[ry][rx]==1) { //make sure replacement tile is a default wall
           map[ry][rx]=t;
         }
       }
@@ -46,21 +47,21 @@ public class Game extends JFrame implements Runnable {
       rx=1;
       ry=0;
       px=0;
-      py=-0.7;
+      py=-planeSize;
     } else if (rotation==1) {
       rx=0;
       ry=1;
-      px=0.7;
+      px=planeSize;
       py=0;
     } else if (rotation==2) {
       rx=-1;
       ry=0;
       px=0;
-      py=0.7;
+      py=planeSize;
     } else {
       rx=0;
       ry=-1;
-      px=-0.7;
+      px=-planeSize;
       py=0;
     }
     camera=new Camera(this,startX,startY,rx,ry,px,py);

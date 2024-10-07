@@ -5,8 +5,8 @@ public class Screen {
   public static Texture[] textures=Texture.walls;
   public static Texture ceilTex=Texture.ceil;
   public static Texture floorTex=Texture.floor;
-  private static final double fadeDist=4.0;
-  private static final double maxDist=Math.pow(fadeDist,2);
+  private static final double fadeDist=5.0;
+  private static final double maxDist=fadeDist*2;
   private double time;
   private static int multiplyColor(int rgb,double mult) {
     int r=(int)(((rgb>>16)&0xFF)*mult);
@@ -97,10 +97,15 @@ public class Screen {
         double ceilY=camera.yPos+currentDist*(camera.yDir+camera.yPlane*(2*x/(double)width-1));
         int ceilTexX=(int)((ceilX+time*10)%1*64);
         int ceilTexY=(int)((ceilY+time*10)%1*64);
-        int color=ceilTex.pixels[ceilTexX+ceilTexY*64];
-        ceilTexX=(int)((ceilX+time*15)%1*64);
-        ceilTexY=(int)((ceilY+time*11)%1*64);
-        color+=ceilTex.pixels[ceilTexX+ceilTexY*64];
+        int color;
+        try {
+          color=ceilTex.pixels[ceilTexX+ceilTexY*64];
+          ceilTexX=(int)((ceilX+time*15)%1*64);
+          ceilTexY=(int)((ceilY+time*11)%1*64);
+          color+=ceilTex.pixels[ceilTexX+ceilTexY*64];
+        } catch (Exception e) { 
+          color=0;
+        }
         pixels[x+y*width]=color;
       }
       for (int y=drawEnd;y<height;y++) { //floor
@@ -109,10 +114,15 @@ public class Screen {
         double floorY=camera.yPos+currentDist*(camera.yDir+camera.yPlane*(2*x/(double)width-1));
         int floorTexX=(int)(floorX%1*64);
         int floorTexY=(int)(floorY%1*64);
-        int color=floorTex.pixels[floorTexX+floorTexY*64];
-        double fadeFactor=Math.max(0,Math.min(1,1-(currentDist/fadeDist)));
-        if (fadeFactor>=1) break;
-        color=Screen.multiplyColor(color,fadeFactor);
+        int color;
+        try {
+          color=floorTex.pixels[floorTexX+floorTexY*64];
+          double fadeFactor=Math.max(0,Math.min(1,1-(currentDist/fadeDist)));
+          if (fadeFactor>=1) break;
+          color=Screen.multiplyColor(color,fadeFactor);
+        } catch (Exception e) {
+          color=0;
+        }
         pixels[x+y*width]=color;
       }
       if (!hit) continue; // if the wall is too far away, don't even render it

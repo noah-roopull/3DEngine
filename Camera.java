@@ -1,6 +1,6 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
+import java.awt.event.WindowEvent;
 
 public class Camera implements KeyListener{
   public Game frame;
@@ -32,7 +32,7 @@ public class Camera implements KeyListener{
     if((key.getKeyCode()==KeyEvent.VK_A)) sleft=true;
     if((key.getKeyCode()==KeyEvent.VK_D)) sright=true;
     if((key.getKeyCode()==KeyEvent.VK_SHIFT)) move_speed=0.12; //150% base speed
-    if((key.getKeyCode()==KeyEvent.VK_P)) {frame.running=false;frame.dispose();} //close window (almost) clenanly
+    if((key.getKeyCode()==KeyEvent.VK_P)) {frame.running=false;frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));;} //close window cleanly
   }
   public void keyReleased(KeyEvent key) {
     if((key.getKeyCode()==KeyEvent.VK_LEFT)) left=false;
