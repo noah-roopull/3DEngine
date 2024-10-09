@@ -11,4 +11,4 @@ Controls:
 - R: reset position
 - P: close
 ---
-Low-resolution fork
+Low-resolution fork: 1/16 resolution, 1/4 framerate
