@@ -38,6 +38,6 @@ public class Texture {
     new Texture("res/dog.jpg"),
     new Texture("res/zodiac.jpg"),
     new Texture("res/ultrakill.jpg"),
-    new Texture("res/angel.jpg")
+    new Texture("res/angel.jpg") //last texture is used to denote the exit
   };
 }

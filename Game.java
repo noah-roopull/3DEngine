@@ -8,10 +8,9 @@ import javax.swing.JFrame;
 
 public class Game extends JFrame implements Runnable {
   public final int screenWidth=600;
-  public final int screenHeight=450;
+  public final int screenHeight=screenWidth*3/4;
   public final double planeSize=0.7;
-  public int mapWidth=15;
-  public int mapHeight=15;
+  public int mapSize=7;
   private Thread thread;
   public boolean running;
   private BufferedImage image;
@@ -22,56 +21,47 @@ public class Game extends JFrame implements Runnable {
   public int[][] map;
   public Game() {
     wallTex=Texture.walls;
-    Maze m=new Maze(mapWidth*2+1,mapHeight*2+1,true);
+    Maze m=new Maze(mapSize*2+1,mapSize*2+1,true);
     map=m.cells; //reference for cell array
     for (int t=1;t<wallTex.length;t++) { //for each texture besides the first and last (first is default wall, last is floor
-      for (int i=0;i<Math.sqrt(mapWidth*mapHeight);i++) { //approx. same amount of replacements for any size
-        int rx=(int)(Math.random()*mapWidth*4+3); //pick random x
-        int ry=(int)(Math.random()*mapHeight*4+3); //pick random y
+      for (int i=0;i<Math.sqrt(mapSize*mapSize);i++) { //approx. same amount of replacements for any size
+        int rx=(int)(Math.random()*mapSize*4+3); //pick random x
+        int ry=(int)(Math.random()*mapSize*4+3); //pick random y
         if (map[ry][rx]==1) { //make sure replacement tile is a default wall
           map[ry][rx]=t;
         }
       }
     }
-    map[mapHeight*4+1][mapWidth*4+2]=wallTex.length; //set bottom right corner to angel
-    map[mapHeight*4+2][mapWidth*4+1]=wallTex.length;
+    map[mapSize*4+1][mapSize*4+2]=wallTex.length; //set bottom right corner to angel
+    map[mapSize*4+2][mapSize*4+1]=wallTex.length;
     System.out.println(m); //display modified maze
     thread=new Thread(this);
     image=new BufferedImage(screenWidth,screenHeight,BufferedImage.TYPE_INT_RGB);
     pixels=((DataBufferInt)image.getRaster().getDataBuffer()).getData();
-    double startX=((mapWidth%2==0)?0.5:1.5)+(double)mapWidth*2.0; //center
-    double startY=((mapHeight%2==0)?0.5:1.5)+(double)mapHeight*2.0;
+    double startPos=1.5+(double)mapSize*2.0; //center
     int rotation=(int)(Math.random()*4); //Rotates the player to a random 90deg angle
     double rx,ry,px,py;
     if (rotation==0) {
-      rx=1;
-      ry=0;
-      px=0;
-      py=-planeSize;
+      rx=1;ry=0;
+      px=0;py=-planeSize;
     } else if (rotation==1) {
-      rx=0;
-      ry=1;
-      px=planeSize;
-      py=0;
+      rx=0;ry=1;
+      px=planeSize;py=0;
     } else if (rotation==2) {
-      rx=-1;
-      ry=0;
-      px=0;
-      py=planeSize;
+      rx=-1;ry=0;
+      px=0;py=planeSize;
     } else {
-      rx=0;
-      ry=-1;
-      px=-planeSize;
-      py=0;
+      rx=0;ry=-1;
+      px=-planeSize;py=0;
     }
-    camera=new Camera(this,startX,startY,rx,ry,px,py);
-    screen=new Screen(map,mapWidth*2+1,mapHeight*2+1,screenWidth,screenHeight);
+    camera=new Camera(this,startPos,startPos,rx,ry,px,py);
+    screen=new Screen(map,mapSize*2+1,mapSize*2+1,screenWidth,screenHeight);
     addKeyListener(camera);
     setSize(screenWidth,screenHeight);
     setResizable(false); //avoid resolution change
     setTitle("3D Engine");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setBackground(Color.black);
+    setBackground(Color.BLACK);
     setLocationRelativeTo(null);
     setVisible(true);
     this.requestFocus();

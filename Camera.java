@@ -8,7 +8,7 @@ public class Camera implements KeyListener{
   public boolean left,right,forward,back,sleft,sright,resetpos; //turnleft,turnright,moveforward,moveback,strafeleft,straferight,resetposition
   public final double move_speed=0.08;
   public final double sprint_speed=0.12;
-  public final double rotation_speed=0.09;
+  public final double rotation_speed=0.07;
   public double ms,m;
   public Camera(Game f,double x,double y,double xd,double yd,double xp,double yp) {
     frame=f;
@@ -24,7 +24,7 @@ public class Camera implements KeyListener{
     oXPlane=xp;
     yPlane=yp;
     oYPlane=yp;
-    ms=move_speed;
+    m=move_speed;
   }
   public void keyPressed(KeyEvent key) {
     if (key.getKeyCode()==KeyEvent.VK_LEFT) left=true;
@@ -34,7 +34,7 @@ public class Camera implements KeyListener{
     if (key.getKeyCode()==KeyEvent.VK_R) resetpos=true;
     if (key.getKeyCode()==KeyEvent.VK_A) sleft=true;
     if (key.getKeyCode()==KeyEvent.VK_D) sright=true;
-    if (key.getKeyCode()==KeyEvent.VK_SHIFT) ms=sprint_speed;
+    if (key.getKeyCode()==KeyEvent.VK_SHIFT) m=sprint_speed;
     if (key.getKeyCode()==KeyEvent.VK_P) frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING)); //close window cleanly
   }
   public void keyReleased(KeyEvent key) {
@@ -45,7 +45,7 @@ public class Camera implements KeyListener{
     if (key.getKeyCode()==KeyEvent.VK_R) resetpos=false;
     if (key.getKeyCode()==KeyEvent.VK_A) sleft=false;
     if (key.getKeyCode()==KeyEvent.VK_D) sright=false;
-    if (key.getKeyCode()==KeyEvent.VK_SHIFT) ms=move_speed;
+    if (key.getKeyCode()==KeyEvent.VK_SHIFT) m=move_speed;
   }
   public void update(int[][] map) {
     if (resetpos) {
@@ -57,9 +57,9 @@ public class Camera implements KeyListener{
       yPlane=oYPlane;
     }
     if ((forward||back)&&(sleft||sright)) {
-      m=ms*0.71; //~sqrt(2)/2, avoid faster movement while moving diagonally
+      ms=m*0.71; //~sqrt(2)/2, avoid faster movement while moving diagonally
     } else {
-      m=ms;
+      ms=m;
     }
     double dx=0.0;
     double dy=0.0;

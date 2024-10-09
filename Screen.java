@@ -1,11 +1,12 @@
 import java.awt.Color;
+
 public class Screen {
   public int[][] map;
   public int mapWidth,mapHeight,width,height;
   public static Texture[] textures=Texture.walls;
   public static Texture ceilTex=Texture.ceil;
   public static Texture floorTex=Texture.floor;
-  private static final double fadeDist=5.0;
+  private static final double fadeDist=6.0;
   private static final double maxDist=fadeDist*2;
   private double time;
   private static int multiplyColor(int rgb,double mult) {
@@ -108,6 +109,7 @@ public class Screen {
         }
         pixels[x+y*width]=color;
       }
+      if (!hit) continue; // if the wall is too far away, don't even render it
       for (int y=drawEnd;y<height;y++) { //floor
         double currentDist=height/(2.0*y-height); //distance from the player to the floor at this y-coordinate
         double floorX=camera.xPos+currentDist*(camera.xDir+camera.xPlane*(2*x/(double)width-1));
@@ -125,7 +127,6 @@ public class Screen {
         }
         pixels[x+y*width]=color;
       }
-      if (!hit) continue; // if the wall is too far away, don't even render it
       for (int y=drawStart;y<drawEnd;y++) { //walls
         int texY=(((y*2-height+lineHeight)<<6)/lineHeight)/2;
         if (wallTexX+(texY*64)<0) continue;
