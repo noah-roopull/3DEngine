@@ -10,3 +10,5 @@ Controls:
 - Left/Right arrow: turn left/right
 - R: reset position
 - P: close
+---
+Split into normal and low-res versions
