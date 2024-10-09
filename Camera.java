@@ -4,16 +4,18 @@ import java.awt.event.WindowEvent;
 
 public class Camera implements KeyListener{
   public Game frame;
-  public int mazeSize;
+  public int mazeSize,mazeEnd;
   public double xPos,yPos,xDir,yDir,xPlane,yPlane,oXPos,oYPos,oXDir,oYDir,oXPlane,oYPlane;
   public boolean left,right,forward,back,sleft,sright,resetpos; //turnleft,turnright,moveforward,moveback,strafeleft,straferight,resetposition
   public final double move_speed=0.08;
   public final double sprint_speed=0.12;
   public final double rotation_speed=0.07;
   public double ms,m;
+  public int ticks;
   public Camera(Game f,int ms,double x,double y,double xd,double yd,double xp,double yp) {
     frame=f;
     mazeSize=ms;
+    mazeEnd=ms*4+1;
     xPos=x;
     oXPos=x;
     yPos=y;
@@ -27,6 +29,7 @@ public class Camera implements KeyListener{
     yPlane=yp;
     oYPlane=yp;
     m=move_speed;
+    ticks=0;
   }
   public void keyPressed(KeyEvent key) {
     if (key.getKeyCode()==KeyEvent.VK_LEFT) left=true;
@@ -97,11 +100,11 @@ public class Camera implements KeyListener{
       xPlane=xPlane*Math.cos(rotation_speed)-yPlane*Math.sin(rotation_speed);
       yPlane=oldxPlane*Math.sin(rotation_speed)+yPlane*Math.cos(rotation_speed);
     }
-    if ((int)xPos==mazeSize*4+3&&(int)yPos==mazeSize*4+3) {
+    ticks+=1;
+    if ((int)xPos==mazeEnd&&(int)yPos==mazeEnd) {
       System.out.println("Finished!");
+      System.out.println("Ticks: "+ticks+"\nMaze Size: "+mazeSize+"\nFinal Score: "+(int)(100000/(double)ticks*(double)mazeSize*(double)mazeSize*(double)mazeSize));
       frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-    } else {
-      System.out.println(""+xPos+","+yPos);
     }
   }
   public void keyTyped(KeyEvent key) {} //Override but ignore

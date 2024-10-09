@@ -100,7 +100,7 @@ public class Game extends JFrame implements Runnable {
       lastTime=now;
       while (delta>=1) {//update max 60fps
         //handle all logic restricted time
-        screen.update(camera,pixels,0.004);
+        screen.update(camera,pixels,0.001);
         camera.update(map);
         delta--;
       }
